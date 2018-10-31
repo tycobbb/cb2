@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "lib": ["es6", "dom"],
+    "target": "es2016",
+    "moduleResolution": "node",
+    "jsx": "react",
+    "sourceMap": true,
+    "outDir": "dist",
+    "baseUrl": ".",
+    "paths": {
+      "*": [
+        "node_modules/*"
+      ]
+    },
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitReturns": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "compileOnSave": false
+}
