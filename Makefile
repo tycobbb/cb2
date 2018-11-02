@@ -6,13 +6,16 @@ jbin = ./node_modules/.bin
 
 # -- run/stop --
 ## starts the dev server
-start:
-	$(jbin)/ts-node-dev --no-notify src/index.ts
+s:
+	$(jbin)/ts-node src/index.ts
+## starts the dev server, reloading server files when they change
+s/watch:
+	$(jbin)/ts-node src/index.ts
 ## kills the running dev server
-stop:
+s/kill:
 	lsof -t -i:3000 | xargs kill
 
-.PHONY: start stop
+.PHONY: s s/watch s/kill
 
 # -- help --
 help:
@@ -20,15 +23,15 @@ help:
 
 define HELP
 BEGIN {
-	print "\033[;1musage:\033[0m";
-	print "  make <command>\n";
-	print "\033[;1mcommands:\033[0m";
+	print "\033[4;37musage:\033[0m";
+	print "  \033[1;37mmake <command>\033[0m\n";
+	print "\033[4;37mcommands:\033[0m";
 }
 /^## (.*)$$/ {
 	$$1=""; docs=$$0;
 	getline;
 	sub(/:/, "", $$1);
-	printf "  \033[36m%-5s\033[0m %s\n", $$1, docs;
+	printf "  \033[1;31m%-7s\033[0;90m %s\033[0m\n", $$1, docs;
 }
 endef
 export HELP
