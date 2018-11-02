@@ -1,11 +1,6 @@
 import express from "express"
 import { Root } from "./Root"
 
-// hot reloading
-import webpack from "webpack"
-import devMiddleware from "webpack-dev-middleware"
-import hotMiddleware from "webpack-hot-middleware"
-
 export class Server {
   private app = express()
 
@@ -22,22 +17,9 @@ export class Server {
   }
 
   private async addHotReloading() {
-    // const hotReloading = new HotReloading()
-    // this.app.use(hotReloading.middleware)
-
-    const { default: config } = await import("../../webpack.config")
-    const compiler = webpack(config)
-
-    this.app.use(devMiddleware(compiler, {
-      logLevel:   "warn",
-      publicPath: config.output!.publicPath!
-    }))
-
-    this.app.use(hotMiddleware(compiler, {
-      log:       console.log,
-      path:      "/__webpack_hmr",
-      heartbeat: 10 * 1000
-    }))
+    const { HotReloading } = await import("./HotReloading")
+    const hotReloading = new HotReloading()
+    this.app.use(hotReloading.middleware)
   }
 
   private addRoutes() {
