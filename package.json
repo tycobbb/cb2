@@ -15,7 +15,15 @@
     "@types/express": "^4.16.0",
     "@types/react": "^16.4.18",
     "@types/react-dom": "^16.0.9",
+    "@types/webpack": "^4.4.17",
+    "@types/webpack-dev-middleware": "^2.0.2",
+    "@types/webpack-hot-middleware": "^2.16.4",
+    "ts-loader": "^5.3.0",
     "ts-node-dev": "^1.0.0-pre.30",
-    "typescript": "^3.1.4"
+    "typescript": "^3.1.4",
+    "webpack": "^4.23.1",
+    "webpack-dev-middleware": "^3.4.0",
+    "webpack-hot-middleware": "^2.24.3",
+    "webpack-merge": "^4.1.4"
   }
 }

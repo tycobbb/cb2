@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
+    "target": "es5",
     "lib": ["es6", "dom"],
-    "target": "es2016",
-    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "module": "commonjs",
     "jsx": "react",
     "sourceMap": true,
     "outDir": "dist",
@@ -13,14 +14,14 @@
       ]
     },
     "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "noImplicitReturns": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "strict": true,
   },
   "include": [
-    "src/**/*"
+    "./src/**/*"
   ],
   "compileOnSave": false
 }
