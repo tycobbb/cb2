@@ -1,4 +1,5 @@
 import webpack from "webpack"
+import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin"
 
 const config: webpack.Configuration = {
   mode: "development",
@@ -32,7 +33,8 @@ const config: webpack.Configuration = {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin()
+    new webpack.NoEmitOnErrorsPlugin(),
+    new ForkTsCheckerWebpackPlugin()
   ]
 }
 
