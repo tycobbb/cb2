@@ -3,11 +3,18 @@
 // https://github.com/diesel-rs/diesel/issues/1785
 #![allow(proc_macro_derive_resolution_fallback)]
 
+extern crate dotenv;
+
 #[macro_use]
 extern crate rocket;
+extern crate rocket_contrib;
+
 #[macro_use]
 extern crate diesel;
-extern crate dotenv;
+
+#[macro_use]
+extern crate serde_derive;
+extern crate serde;
 
 mod db;
 mod schema;
@@ -15,43 +22,59 @@ mod game;
 
 use self::diesel::prelude::*;
 use self::schema::*;
+use rocket_contrib::json::Json;
 
-#[get("/games")]
-fn games() -> String {
-    use self::game::Game;
-
-    let conn = db::connect();
-
-    // load games
-    let records = games::table.limit(1)
-        .load::<Game>(&conn)
-        .expect("Error Loading games");
-
-    let record = &records[0];
-
-    format!("found a game named {}!", record.name)
+// response envelope
+#[derive(Serialize)]
+struct Resp<T> {
+    data:  Option<T>,
+    error: Option<String>,
 }
 
-#[post("/games/add")]
-fn add_game() -> &'static str {
-    use self::game::{ Game, NewGame };
+impl<T> Resp<T> {
+    fn data(value: T) -> Resp<T> {
+        Resp { data: Some(value), error: None }
+    }
 
-    let conn = db::connect();
+    fn error(err: String) -> Resp<T> {
+        Resp { data: None, error: Some(err) }
+    }
 
-    // add game
+    fn from(result: QueryResult<T>) -> Resp<T> {
+        match result {
+            Ok(data) => Resp::data(data),
+            Err(err) => Resp::error(err.to_string())
+        }
+    }
+}
+
+// games
+use self::game::{ Game, NewGame };
+
+#[get("/game")]
+fn read_game() -> Json<Resp<Game>> {
+    let conn   = db::connect();
+    let result = games::table
+        .first::<Game>(&conn);
+
+    Json(Resp::from(result))
+}
+
+#[post("/games/create")]
+fn create_game() -> Json<Resp<Game>> {
     let new_game = NewGame {
         name: "Hanabi"
     };
 
-    diesel::insert_into(games::table)
+    let conn   = db::connect();
+    let result = diesel::insert_into(games::table)
         .values(&new_game)
-        .get_result::<Game>(&conn)
-        .expect("Error adding new game.");
+        .get_result::<Game>(&conn);
 
-    "Added game."
+    Json(Resp::from(result))
 }
 
 fn main() {
     dotenv::dotenv().ok();
-    rocket::ignite().mount("/", routes![games, add_game]).launch();
+    rocket::ignite().mount("/", routes![read_game, create_game]).launch();
 }

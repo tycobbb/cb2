@@ -1,5 +1,6 @@
 use super::schema::games;
 
+#[derive(Serialize)]
 #[derive(Queryable)]
 pub struct Game {
     pub id:   i32,
