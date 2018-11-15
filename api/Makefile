@@ -3,7 +3,7 @@
 # -- run/stop --
 ## starts the api server
 s:
-	cargo watch -x run
+	cargo run
 
 .PHONY: s
 

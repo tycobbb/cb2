@@ -1,7 +1,6 @@
 use super::schema::games;
 
-#[derive(Serialize)]
-#[derive(Queryable)]
+#[derive(GraphQLObject, Serialize, Queryable)]
 pub struct Game {
     pub id:   i32,
     pub name: String,
