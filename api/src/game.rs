@@ -1,4 +1,4 @@
-use super::schema::games;
+use db::schema::games;
 
 #[derive(GraphQLObject, Serialize, Queryable)]
 pub struct Game {

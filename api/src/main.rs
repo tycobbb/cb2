@@ -23,7 +23,6 @@ extern crate juniper_codegen;
 extern crate juniper_rocket;
 
 mod db;
-mod schema;
 mod game;
 mod graphql;
 

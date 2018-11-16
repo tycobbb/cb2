@@ -1,7 +1,7 @@
 use diesel::prelude::*;
 use juniper::FieldResult;
 use db;
-use schema::*;
+use db::schema::*;
 use game::Game;
 
 pub struct Query;
